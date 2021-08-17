@@ -56,6 +56,8 @@ def get_products(category: str, direction: int, featdict: dict, vendors: list):
             featdict['type'] = get_category_key_vals('memory', 'type')
         if 'capacity' not in featdict or len(featdict['capacity']) < 1:
             featdict['capacity'] = get_category_key_vals('memory', 'capacity')
+        if 'sub category' not in featdict or len(featdict['sub category']) < 1:
+            featdict['sub category'] = get_category_key_vals('memory', 'sub category')
         objects = products.find({
             'category': category, 'brand': {'$in': featdict['brand']},
             'speed': {'$in': featdict['speed']},
@@ -71,6 +73,19 @@ def get_products(category: str, direction: int, featdict: dict, vendors: list):
         objects = products.find({
             'category': category, 'brand': {'$in': featdict['brand']},
             'panel': {'$in': featdict['panel']}, 'vendor': {'$in': vendors}
+        }).sort("price", direction)
+
+    elif category == 'storage':
+        if 'brand' not in featdict or len(featdict['brand']) < 1:
+            featdict['brand'] = get_category_key_vals('storage', 'brand')
+        if 'type' not in featdict or len(featdict['type']) < 1:
+            featdict['type'] = get_category_key_vals('storage', 'type')
+        if 'capacity' not in featdict or len(featdict['capacity']) < 1:
+            featdict['capacity'] = get_category_key_vals('storage', 'capacity')
+        objects = products.find({
+            'category': category, 'brand': {'$in': featdict['brand']},
+            'type': {'$in': featdict['type']}, 'capacity': {'$in': featdict['capacity']},
+            'vendor': {'$in': vendors}
         }).sort("price", direction)
 
     else:

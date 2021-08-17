@@ -143,7 +143,14 @@ def component(name):
         speed = dbops.get_category_key_vals('memory', 'speed')
         memtype = dbops.get_category_key_vals('memory', 'type')
         capacity = dbops.get_category_key_vals('memory', 'capacity')
-        featdict = {'brand': brands, 'speed': speed, 'type': memtype, 'capacity': capacity}
+        subcategory = dbops.get_category_key_vals('memory', 'sub category')
+        featdict = {'brand': brands, 'speed': speed, 'type': memtype,
+                'capacity': capacity, 'sub category': subcategory}
+    elif name == 'storage':
+        brands = dbops.get_category_key_vals('storage', 'brand')
+        storage_type = dbops.get_category_key_vals('storage', 'type')
+        capacity = dbops.get_category_key_vals('storage', 'capacity')
+        featdict = {'brand': brands, 'type': storage_type, 'capacity': capacity}
     else:
         brands = dbops.get_category_key_vals(name, 'brand')
         featdict = {'brand': brands}
@@ -188,6 +195,7 @@ def component(name):
         if queryvendors == []:
             queryvendors = vendors
 
+    # update the cookie variable for filter persistence
     session[sessionkey] = [1, 2, 3]         # placeholder values
     session[sessionkey][0] = hilodirection
     session[sessionkey][1] = queryfeatdict
